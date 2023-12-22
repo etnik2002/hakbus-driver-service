@@ -13,6 +13,11 @@ const bookingSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Ticket'
     },
+    date: { type: String },
+    from: { type: String },
+    to: { type: String },
+    fromCode: { type: String },
+    toCode: { type: String },
     passengers: [
         {
             fullName: {
@@ -26,7 +31,6 @@ const bookingSchema = mongoose.Schema({
             },
             birthDate: {
                 type: String,
-                required: true,
             },
             age: {
                 type: Number,
@@ -38,16 +42,27 @@ const bookingSchema = mongoose.Schema({
                 type: Boolean,
                 default: false,
             },
+            luggagePrice: {
+                type: Number,
+            },
+            numberOfLuggages: {
+                type: Number,
+            }
         }
     ],
     price: {
         type: Number
     },
-    type: {
+    platform: {
         type: String,
-        enum: ["oneway", "return", 'both'],
-        default: "oneway" 
-    }
+        enum: ["ios", "android", "web"]
+    },
+    isPaid: {
+        type: Boolean,
+        enum: ['true', 'false'],
+        default: 'false',
+    },
+    
 } , { timestamps : true });
 
 module.exports = mongoose.model("Booking", bookingSchema);

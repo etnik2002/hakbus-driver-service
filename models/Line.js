@@ -7,28 +7,24 @@ const LineSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    phone : {
+        type: String,
+    },
     from: {
         type: String
     },
     to: {
         type: String
     },
-    lat: {
+    freeLuggages: {
         type: Number,
     },
-    lng: {
+    luggagePrice: {
         type: Number,
     },
-    endLat: {
-        type: Number,
+    luggageSize: {
+        type: String,
     },
-    endLng: {
-        type: Number,
-    },
-
-  });
-
-
-
+  }, { timestamps: true });
 
 module.exports = mongoose.model("Line", LineSchema);

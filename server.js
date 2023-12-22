@@ -1,14 +1,30 @@
+require("dotenv").config();
+const cluster = require("cluster");
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
-const PORT = process.env.PORT | 4467;
+const PORT = process.env.PORT || 4467;
 const bodyParser = require("body-parser");
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
-require("dotenv").config();
-
+const numCPUs = require("os").cpus().length;
+const helmet = require("helmet");
 const driverRoutes = require("./routes/driver")
+
+if (cluster.isMaster) {
+  console.log(`Master ${process.pid} is running`);
+
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork();
+  }
+
+  cluster.on("exit", (worker, code, signal) => {
+    console.log(`Worker ${worker.process.pid} died`);
+    cluster.fork(); 
+  });
+  
+} else {
 
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -17,7 +33,9 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Credentials', true);
     next();
   });
-  
+
+  app.use(helmet());
+
   app.get('/', (req, res) => {
     try {
       res.status(200).json({message: "HakBus API - driver"})
@@ -61,3 +79,4 @@ app.use(function (req, res, next) {
 
 
 app.listen(PORT, ()=> {console.log(`server listeting on http://localhost:${PORT}`)})
+}

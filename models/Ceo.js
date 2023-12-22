@@ -7,7 +7,6 @@ const ceoSchema = mongoose.Schema({
     },
     email: {
         type: String,
-        required: true,
         unique: true
     },
     password: {
@@ -28,9 +27,16 @@ const ceoSchema = mongoose.Schema({
             title: {
                 type: String,
             },
+            link: {
+                type: String,
+            },
             agency_id: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Agency',
+            },
+            ticket: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Ticket',
             },
             value: {    
                 type: Number,
@@ -40,7 +46,19 @@ const ceoSchema = mongoose.Schema({
                 default: false,
             },
         },
-    ]
+    ],
+    role: {
+        type: String,
+        enum : ['admin','superAdmin', 'observer', 'ceo'],
+        default: 'admin',
+    },
+    access: [String],
+    nrOfSeatsNotification: {
+        type: Number,
+    },
+    deletionPin: {
+        type: String
+    }
 
 }, { timestamps: true })
 
