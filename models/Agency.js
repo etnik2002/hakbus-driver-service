@@ -13,9 +13,11 @@ const agencySchema = mongoose.Schema({
     },
     password: {
         type: String,
-        required: true
     },  
     city: {
+        type: String,
+    },
+    country: {
         type: String,
     },
     phone: {
@@ -23,7 +25,6 @@ const agencySchema = mongoose.Schema({
     },
     percentage: {
         type: Number,
-        required: true
     },
     totalSales: {
         type: Number,
@@ -38,21 +39,34 @@ const agencySchema = mongoose.Schema({
     debt: {
         type: Number,
     },
-    // idc: {
-    //     type: String,
-    // },
-    // scc: {
-    //     type: String,
-    // }
+    isApplicant: {
+        type: Boolean
+    },
+    vat: {
+        type: String,
+    },
+    address: {
+        type: String,
+    },
+    company_id: {
+        type: String,
+    },
 } , { timestamps : true } )
 
 agencySchema.methods.generateAuthToken = function (data) {
     data.password = undefined;
-    const token = jwt.sign({ data }, process.env.OUR_SECRET, {
-      expiresIn: '7d',
-    });
+    const token = jwt.sign({ data }, process.env.OUR_SECRET);
     
     return token;
-  };
+};
+
+// agencySchema.methods.generateAuthToken = function (data) {
+//     data.password = undefined;
+//     const token = jwt.sign({ data }, process.env.OUR_SECRET, {
+//       expiresIn: '7d',
+//     });
+    
+//     return token;
+//   };
 
 module.exports = mongoose.model("Agency", agencySchema);

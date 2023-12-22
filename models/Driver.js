@@ -3,15 +3,9 @@ const jwt = require("jsonwebtoken");
 
 
 const driverSchema = mongoose.Schema({
-    name: {
-      type: String,
-      required: true,
-    },
+    name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    code: {
-      type: String
-    },
     lines: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -19,11 +13,16 @@ const driverSchema = mongoose.Schema({
       },
     ],
     scannedBookings: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Booking',
-          },
-    ]
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Booking',
+      },
+    ],
+    role: {
+      type: String,
+      default: "driver",
+    }
+
   });
 
   driverSchema.methods.generateAuthToken = function (data) {

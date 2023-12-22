@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const ticketSchema = mongoose.Schema({
-  
   lineCode: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Line',
@@ -12,33 +11,39 @@ const ticketSchema = mongoose.Schema({
   to: {
     type: String,
   },
-  changes: 
+  stops: [
     {
-      city: {
-        type: String,
-      },
-      date: {
-        type: String,
-      },
-      time: {
-        type: String,
-      },
-    },
-    
+      from: [
+        {
+          city: { type: String },
+          code: { type: String },
+          country: { type: String },
+          lat: { type: Number },
+          lng: { type: Number },
+          code: { type: String },
+        }
+      ],
+      to: [
+        {
+          city: { type: String },
+          code: { type: String },
+          country: { type: String },
+          lat: { type: Number },
+          lng: { type: Number },
+          code: { type: String },
+        }
+      ],
+      time: { type: String },
+      date: { type: String }, 
+      price: { type: Number },
+      childrenPrice: { type: Number },
+    }
+  ],
   date: {
-    type: String,
-    required: true,
-  },
-  returnDate: {
     type: String,
   },
   time: {
     type: String,
-    required: true,
-  },
-  returnTime: {
-    type: String,
-    required: true,
   },
   type: {
     type: String,
@@ -49,24 +54,11 @@ const ticketSchema = mongoose.Schema({
     type: Number,
     default: 48,
   },
-  numberOfReturnTickets: {
-    type: Number,
-    default: 48,
-  },
-  price: {
-    type: Number,
-    required: true,
-  },
-  childrenPrice: {
-    type: Number,
-    required: true,
-  },
   isActive: {
     type: Boolean,
     enum: ['true', 'false'],
     default: true
   },
-
 }, { timestamps: true });
 
 module.exports = mongoose.model("Ticket", ticketSchema);

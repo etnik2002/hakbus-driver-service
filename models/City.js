@@ -5,6 +5,18 @@ const citySchema = mongoose.Schema({
     name: {
         type: String,
     },
+    country: {
+        type :String ,
+    },
+    lat: {
+        type: Number,
+    },
+    lng: {
+        type: Number,
+    },
+    code: {
+        type: String,
+    },
 })
 
 
